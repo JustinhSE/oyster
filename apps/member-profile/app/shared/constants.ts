@@ -54,6 +54,12 @@ export const Route = {
   '/profile/personal': '/profile/personal',
   '/profile/socials': '/profile/socials',
   '/profile/work': '/profile/work',
+
+  //Interview Experiences
+
+  '/interview_experiences': '/interview experiences',
+  
+  
 } as const;
 
 export type Route = ExtractValue<typeof Route>;
