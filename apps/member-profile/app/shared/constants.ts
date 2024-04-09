@@ -57,7 +57,7 @@ export const Route = {
 
   //Interview Experiences
 
-  '/interview_experiences': '/interview experiences',
+  '/interview_experiences': '/interview_experiences',
   
   
 } as const;
