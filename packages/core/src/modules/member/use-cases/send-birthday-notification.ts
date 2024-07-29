@@ -24,13 +24,32 @@ export async function sendBirthdayNotification(
     .where('birthdateNotification', 'is', true)
     .execute();
 
-  members.forEach((member) => {
-    if (member.slackId) {
-      job('notification.slack.send', {
+  if (members.length == 1){
+    job('notification.slack.send', {
         channel: ENV.SLACK_BIRTHDAYS_CHANNEL_ID,
-        message: `Everyone wish a happy birthday to <@${member.slackId}>! 🎉🎂🎈`,
+        message: `Everyone wish a happy birthday to <@${members[0].slackId}>! 🎉🎂🎈`,
         workspace: 'regular',
       });
+  }
+  if(members.length == 2){
+      job('notification.slack.send', {
+        channel: ENV.SLACK_BIRTHDAYS_CHANNEL_ID,
+        message: `Everyone wish a happy birthday to <@${members[0].slackId}> and <@${members[1].slackId}>! 🎉🎂🎈`,
+        workspace: 'regular',
+      });
+  }
+  else{
+    let count = 0;
+    const msg = "";
+    while(count < members.length-2){
+      msg = msg.concat(<@${members[count].slackId}> + ',');
+      count++; 
     }
-  });
+    msg = msg.concat("and" + <@${members[members.length-1].slackId}>);
+    job('notification.slack.send', {
+        channel: ENV.SLACK_BIRTHDAYS_CHANNEL_ID,
+        message: `Everyone wish a happy birthday to <@${members[0].slackId}> and <@${members[1].slackId}>! 🎉🎂🎈`,
+        workspace: 'regular',
+      });
+  }
 }
